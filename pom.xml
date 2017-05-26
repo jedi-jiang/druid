@@ -10,7 +10,7 @@
     -->
 	<groupId>com.alibaba</groupId>
 	<artifactId>druid</artifactId>
-	<version>1.0.28</version>
+	<version>1.0.28-patched-v1</version>
 
 	<packaging>jar</packaging>
 	<name>druid</name>

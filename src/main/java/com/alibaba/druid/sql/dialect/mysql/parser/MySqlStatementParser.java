@@ -391,11 +391,12 @@ public class MySqlStatementParser extends SQLStatementParser {
             return parseCreateTrigger();
         }
         // parse create procedure
-        if (lexer.token() == Token.PROCEDURE || identifierEquals("DEFINER")) {
+        Token token = lexer.token();
+        if (token == Token.PROCEDURE || token == Token.FUNCTION || identifierEquals("DEFINER")) {
             if (replace) {
                 lexer.reset(markBp, markChar, Token.CREATE);
             }
-            return parseCreateProcedure();
+            return parseCreateProcedure(token);
         }
 
         throw new ParserException("TODO " + lexer.token());
@@ -3081,9 +3082,9 @@ public class MySqlStatementParser extends SQLStatementParser {
     }
 
     /**
-     * parse create procedure statement
+     * parse create procedure statement or create function statement
      */
-    public SQLCreateProcedureStatement parseCreateProcedure() {
+    public SQLCreateProcedureStatement parseCreateProcedure(Token token) {
         /**
          * CREATE OR REPALCE PROCEDURE SP_NAME(parameter_list) BEGIN block_statement END
          */
@@ -3103,7 +3104,7 @@ public class MySqlStatementParser extends SQLStatementParser {
             }
         }
 
-        accept(Token.PROCEDURE);
+        accept(token);
 
         stmt.setName(this.exprParser.name());
 
